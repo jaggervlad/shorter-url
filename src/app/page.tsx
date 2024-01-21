@@ -1,27 +1,36 @@
+import { authOptions } from '@/auth';
 import { GithubIcon } from '@/components/icons/github';
-import { ThunderClient } from '@/components/icons/thunder';
+import { LoginHeroButton } from '@/components/login-hero-button';
 import { Button } from '@/components/ui/button';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user) {
+    redirect('/dashboard');
+  }
+
   return (
     <main className="py-10">
-      <section className="py-10 max-w-4xl text-center mx-auto">
-        <h1 className="text-balance text-4xl md:text-6xl font-extrabold">
+      <section className="max-w-4xl py-10 mx-auto text-center">
+        <h1 className="text-4xl font-extrabold text-balance md:text-6xl">
           Acorta tus urls
         </h1>
-        <p className="mt-6 text-pretty text-lg text-muted-foreground">
+        <p className="mt-6 text-lg text-pretty text-muted-foreground">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
           sunt fugiat incidunt cumque sed ipsa necessitatibus quidem illo
         </p>
 
-        <div className="mt-8 flex justify-center gap-4">
-          <Button size="lg">
-            <ThunderClient className="mr-2 h-6 w-6 fill-yellow-700" />
-            Iniciar ahora
-          </Button>
-          <Button size="lg" variant="outline">
-            <GithubIcon className="mr-2 h-6 w-6" /> Github
-          </Button>
+        <div className="flex justify-center gap-4 mt-8">
+          <LoginHeroButton />
+          <Link href={'https://github.com/jaggervlad/shorter-url'}>
+            <Button size="lg" variant="outline">
+              <GithubIcon className="w-6 h-6 mr-2" /> Github
+            </Button>
+          </Link>
         </div>
       </section>
     </main>
