@@ -27,15 +27,13 @@ export const CardLinkItem = ({
     toast('🚀 Copiado!');
   };
 
+  const href = `${(process.env.BASE_URL as string) || ''}/s/${slug}`;
+
   return (
     <article className="relative flex flex-col px-3 py-3 border rounded-lg">
       <header>
         <div className="flex gap-3">
-          <Link
-            href={`${process.env.BASE_URL}/s/${slug}`}
-            target="_blank"
-            className="text-lg font-bold"
-          >
+          <Link href={href} target="_blank" className="text-lg font-bold">
             /s/{slug}
           </Link>
           <button
